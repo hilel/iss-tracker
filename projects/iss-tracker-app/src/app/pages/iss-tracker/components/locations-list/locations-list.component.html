@@ -1,0 +1,63 @@
+
+<div class="search-box p-4">
+
+  <mat-form-field class="w-100">
+    <mat-label>Search Locations</mat-label>
+    <input
+      #searchInput
+      matInput
+      (keyup)="searchSubject.next(searchInput.value)"
+      placeholder="part of name or lat/lng"
+    >
+  </mat-form-field>
+
+</div>
+
+<mat-nav-list class="box-list scrollbar" [ngSwitch]="!!filteredLocations">
+
+  <!--
+    TODO: Make it use combined observable of search results and saved locations
+    to get rid of all of this ng-container elements below
+   -->
+  <ng-container *ngSwitchCase="true">
+    <ng-container *ngFor="let location of filteredLocations">
+      <ng-container *ngTemplateOutlet="locationListItem; context: { location: location}"></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <ng-container *ngFor="let location of savedLocations$ | async">
+      <ng-container *ngTemplateOutlet="locationListItem; context: { location: location }"></ng-container>
+    </ng-container>
+  </ng-container>
+
+
+
+
+</mat-nav-list>
+
+<ng-template #locationListItem let-location="location">
+  <mat-list-item role="listitem">
+
+    <button (click)="removeLocation(location)" class="remove-btn" mat-icon-button aria-label="Remove Location">
+      <i class="material-icons">clear</i>
+    </button>
+
+    <div class="content-row title">
+      {{ location.name }}
+      <!-- tried to get location name from geocoder - worked but wuth issues -->
+      <!-- {{ location.name || setLocationName(location) || 'Unknown' }} -->
+    </div>
+
+    <div class="content-row caption">
+      <span>Lat: {{ location.position?.latitude }}</span>,&nbsp;
+      <span class="ml-1">Lon: {{ location.position?.longitude }}</span>
+    </div>
+
+    <div class="content-row caption">
+      <span>Date: {{ location.timestamp | date:'YYYY-dd-MM HH:mm:ss' }}</span>
+    </div>
+
+
+  </mat-list-item>
+</ng-template>

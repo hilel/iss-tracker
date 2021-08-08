@@ -1,0 +1,88 @@
+<mat-sidenav-container class="sidenav-container">
+
+  <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false" -->
+  <mat-sidenav #drawer class="sidenav"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <!-- opened mode="side" fixedInViewport -->
+
+    <mat-toolbar>
+      ISS Tracker
+    </mat-toolbar>
+
+    <app-locations-list></app-locations-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <div class="d-flex-row flex-center">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span class="subheading-2 mr-3">Current Location</span>
+        <ng-container *ngIf="(issLocation$ | async) as issLocation">
+          <div class="caption d-flex-col flex-start no-grow">
+            <div>
+              <span>Lat: {{ issLocation.position?.latitude }}</span>,&nbsp;
+              <span class="ml-1">Lon: {{ issLocation.position?.longitude }}</span>
+            </div>
+            <span>Time: {{ issLocation.timestamp | date:'YYYY-dd-MM HH:mm:ss' }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </mat-toolbar>
+
+    <div class="p-3">
+
+      <nav mat-tab-nav-bar>
+        <a
+          mat-tab-link
+          [routerLink]="[{ outlets: { content: ['map'] } }]"
+          [active]="activeLink === 'map'"
+          (click)="activeLink = 'map'"
+        >
+          Map
+        </a>
+        <a
+          mat-tab-link
+          [routerLink]="[{ outlets: { content: ['report'] } }]"
+          [active]="activeLink === 'report'"
+          (click)="activeLink = 'report'"
+        >
+          Report
+        </a>
+      </nav>
+
+      <!-- {{(issLocation$ | async) | json}} -->
+
+      <router-outlet name="content"></router-outlet>
+
+
+
+    </div>
+
+
+    <button *ngIf="activeLink === 'map'"
+      mat-mini-fab color="accent" class="save-location-btn"
+      aria-label="Save Location"
+      (click)="saveCurentLocation()"
+      matTooltip="Save Location"
+      matTooltipPosition="above"
+    >
+      <i class="material-icons">add</i>
+    </button>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
+

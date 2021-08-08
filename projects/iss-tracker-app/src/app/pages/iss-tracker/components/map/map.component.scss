@@ -1,0 +1,15 @@
+.google-map-container {
+
+}
+
+:host ::ng-deep .google-map-container google-map > .map-container {
+  width: calc(100vw - 200px - 2rem - 40px) !important;// -200px of sidebar -2rem paddings
+  max-width: 100%;
+  height: calc(100vh - 64px - 2rem - 40px) !important;// -64px of top header -2rem paddings
+  max-height: 100%;
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: calc(100vw - 2rem - 10px) !important;
+  }
+}

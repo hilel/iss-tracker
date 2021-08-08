@@ -1,0 +1,27 @@
+.sidenav-container, .sidenav {
+  max-height: 100vh;
+}
+:host ::ng-deep .mat-drawer-inner-container {
+  overflow: hidden;
+}
+.sidenav {
+  width: 250px;
+}
+
+// .sidenav .mat-toolbar {
+//   background: inherit;
+// }
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.save-location-btn {
+  position: absolute;
+  bottom: 50px;
+  right: 70px;
+}
+
+

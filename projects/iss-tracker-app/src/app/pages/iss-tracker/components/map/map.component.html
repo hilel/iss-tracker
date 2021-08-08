@@ -1,0 +1,16 @@
+<div
+  *ngIf="mapsApiReady"
+  class="google-map-container d-flex-row flex-center w-100 h-100"
+>
+
+  <google-map
+    [options]="mapOptions"
+  >
+    <map-marker *ngIf="!!issMarkerPosition && !!issMarkerOptions"
+      [position]="issMarkerPosition"
+      [options]="issMarkerOptions"
+    >
+    </map-marker>
+  </google-map>
+
+</div>
